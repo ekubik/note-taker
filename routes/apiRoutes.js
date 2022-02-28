@@ -35,7 +35,7 @@ router.post('/notes', (req,res) => {
 
     //write all notes back into file
     fs.writeFile("./db/db.json", JSON.stringify(existingNotes), (writeErr) => {
-      writeErr ? console.error(writeErr) : console.info("Successfully added note!")
+      writeErr ? console.error(writeErr) : console.log("Successfully added note!")
     });
 }
 });
