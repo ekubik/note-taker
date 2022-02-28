@@ -3,7 +3,7 @@ const fs = require("fs");
 const express = require("express");
 const path = require("path");
 
-//const router = require("routes/apiRoutes.js");
+const router = require("./routes/apiRoutes");
 
 //select port
 const PORT = process.env.PORT || 3004;
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 //serve static files from public folder
 app.use(express.static("public"));
 
-//app.use('/api', router);
+
 
 //HTML routes serving static files
 
@@ -31,6 +31,7 @@ app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, 'public/index.html')))
 ;
 
+app.use('/api', router);
 
 //code executed if running successfully
 app.listen(PORT, () =>
