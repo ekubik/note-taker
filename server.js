@@ -13,10 +13,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//serve static files from public folder
+//serve static files from public foldern
 app.use(express.static("public"));
 
-
+app.use("/api", router);
 
 //HTML routes serving static files
 
@@ -31,7 +31,7 @@ app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, 'public/index.html')))
 ;
 
-app.use('/api', router);
+
 
 //code executed if running successfully
 app.listen(PORT, () =>

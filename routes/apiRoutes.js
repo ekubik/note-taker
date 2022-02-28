@@ -3,14 +3,15 @@ const express = require('express');
 const router = express.Router();
 const {uid} = require('uid');
 
-/*router.get('/', (req, res) => {
-    fs.readFile('./db/db.json', 'utf8', (error, data) => err? console.log(error) :
-    res.json(data))
-});*/
+router.get('/notes', (req, res) => {
+    fs.readFile('./db/db.json', 'utf8', (error, data) => error? console.log(error) :
+    res.json(data));
+});
 
 router.post('/notes', (req,res) => {
 
     const {title, text} = req.body;
+
 //if note has both a title and body text, save note.
     if (title && text) {
         const newNote = {
@@ -46,11 +47,7 @@ router.post('/notes', (req,res) => {
     res.status(201).json(response);
   } else {
     res.status(500).json('Failed to save note. Please try again.');
-  }
-
-}
-
-
-)
+  };
+})
 
     module.exports = router;
