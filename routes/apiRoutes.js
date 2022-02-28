@@ -60,7 +60,7 @@ router.post("/notes", (req, res) => {
 
 //DELETE note
 
-/*router.delete("/notes/:id", (req, res) => {
+router.delete("/notes/:id", (req, res) => {
   const noteId = req.params.id;
 
   fs.readFile("./db/db.json", "utf8", (error, data) => {
@@ -68,12 +68,14 @@ router.post("/notes", (req, res) => {
       console.error(error);
     } else {
       const allNotes = JSON.parse(data);
-      const savedNotes = json.filter((allNotes) => allNotes.id !== noteId);
-      fs.writeFile("./db/db.json", JSON.stringify(savedNotes));
-      res.json(savedNotes);
-      console.log(`Note ${noteId} has been successfully deleted`);
-    }
-  });
-});*/
+      const savedNotes = allNotes.filter((note) => note.id !== noteId);
+      fs.writeFile("./db/db.json", JSON.stringify(savedNotes), (err) => {
+          if (err) {
+          console.log(err);
+          } else { 
+              res.json(savedNotes);
+              console.log(`Note ${noteId} has been deleted`)
+          }
+      })}})})
 
 module.exports = router;
