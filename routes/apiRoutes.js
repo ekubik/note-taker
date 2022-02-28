@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const {uid} = require('uid');
 
+
+// GET /api/notes - returns data stored in json object
 router.get('/notes', (req, res) => {
     fs.readFile('./db/db.json', 'utf8', (error, data) => error? console.log(error) :
     res.json(data));
