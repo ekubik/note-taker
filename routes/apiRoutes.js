@@ -1,55 +1,79 @@
-const fs = require('fs');
-const express = require('express');
+const fs = require("fs");
+const express = require("express");
 const router = express.Router();
-const {uid} = require('uid');
-
+const { uid } = require("uid");
 
 // GET /api/notes - returns data stored in json object
-router.get('/notes', (req, res) => {
-    fs.readFile('./db/db.json', 'utf8', (error, data) => error? console.log(error) :
-    res.json(data));
+router.get("/notes", (req, res) => {
+  fs.readFile("./db/db.json", "utf8", (error, data) =>
+    error ? console.log(error) : res.json(data)
+  );
 });
 
-router.post('/notes', (req,res) => {
+//POST new note
+router.post("/notes", (req, res) => {
+  const { title, text } = req.body;
 
-    const {title, text} = req.body;
-
-//if note has both a title and body text, save note.
-    if (title && text) {
-        const newNote = {
-            title,
-            text,
-            id: uid(15),
-        };
+  //if note has both a title and body text, save note.
+  if (title && text) {
+    const newNote = {
+      title,
+      text,
+      id: uid(15),
+    };
 
     // obtain existing notes
-    fs.readFile('./db/db.json', 'utf8', (error, data) => {
-        if (error){
-            console.error(error);
-        } else {
-    //convert string into JSON object
-            const existingNotes = JSON.parse(data);
-    
-    // add new note
-    existingNotes.push(newNote);
+    fs.readFile("./db/db.json", "utf8", (error, data) => {
+      if (error) {
+        console.error(error);
+      } else {
+        //convert string into JSON object
+        const existingNotes = JSON.parse(data);
 
-    //write all notes back into file
-    fs.writeFile("./db/db.json", JSON.stringify(existingNotes), (writeErr) => {
-      writeErr ? console.error(writeErr) : console.log("Successfully added note!")
+        // add new note
+        existingNotes.push(newNote);
+
+        //write all notes back into file
+        fs.writeFile(
+          "./db/db.json",
+          JSON.stringify(existingNotes),
+          (writeErr) => {
+            writeErr
+              ? console.error(writeErr)
+              : console.log("Successfully added note!");
+          }
+        );
+      }
     });
-}
-});
 
- const response = {
-      status: 'success',
+    const response = {
+      status: "success",
       body: newNote,
     };
 
     console.log(response);
     res.status(201).json(response);
   } else {
-    res.status(500).json('Failed to save note. Please try again.');
-  };
-})
+    res.status(500).json("Failed to save note. Please try again.");
+  }
+});
 
-    module.exports = router;
+//DELETE note
+
+/*router.delete("/notes/:id", (req, res) => {
+  const noteId = req.params.id;
+
+  fs.readFile("./db/db.json", "utf8", (error, data) => {
+    if (error) {
+      console.error(error);
+    } else {
+      const allNotes = JSON.parse(data);
+      const savedNotes = json.filter((allNotes) => allNotes.id !== noteId);
+      fs.writeFile("./db/db.json", JSON.stringify(savedNotes));
+      res.json(savedNotes);
+      console.log(`Note ${noteId} has been successfully deleted`);
+    }
+  });
+});*/
+
+module.exports = router;
