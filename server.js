@@ -3,6 +3,8 @@ const fs = require("fs");
 const express = require("express");
 const path = require("path");
 
+//const router = require("routes/apiRoutes.js");
+
 //select port
 const PORT = process.env.PORT || 3004;
 const app = express();
@@ -13,6 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //serve static files from public folder
 app.use(express.static("public"));
+
+//app.use('/api', router);
 
 //HTML routes serving static files
 
